@@ -4,6 +4,8 @@ stages:
   - package
 # - deploy
 
+image: maven:3-jdk-8
+
 variables:
   PRODUCTION_DOMAIN: http://localhost:8080/
 
