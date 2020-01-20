@@ -1,11 +1,23 @@
 stages:
   - build
   - test
-  - deploy
+  - package
+# - deploy
 
 variables:
   PRODUCTION_DOMAIN: http://localhost:8080/
 
+cache:
+    key: "$CI_COMMIT_REF_NAME"
+    paths:
+        - .maven/
+
+before_script:
+    - export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk"
+    - export MAVEN_USER_HOME=`pwd`/.maven
+    - chmod +x mvnw
+    - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
+    - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
 
 build website:
   stage: build
@@ -18,8 +30,61 @@ build website:
     - ./mvnw package
   artifacts:
     paths:
-      - ./target
+      - /target
   except:
     - schedules
   before_script:
     - echo "this job is going to build project"
+
+maven-compile:
+  stage: build
+  only:
+    - master
+    - merge_requests
+  script:
+    - ./mvnw compile -Dmaven.repo.local=$MAVEN_USER_HOME
+  artifacts:
+    paths:
+        - target/classes/
+        - target/generated-sources/
+    expire_in: 1 day
+
+maven-test:
+  stage: test
+  only:
+    - master
+    - merge_requests
+  script:
+    - ./mvnw test -Dmaven.repo.local=$MAVEN_USER_HOME
+  artifacts:
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
+    paths:
+      - target/test-results
+    expire_in: 1 day
+
+frontend-test:
+  stage: test
+  only:
+    - master
+    - merge_requests
+  script:
+    - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='test -- -u' -Dmaven.repo.local=$MAVEN_USER_HOME
+  artifacts:
+    reports:
+      junit: target/test-results/jest/TESTS-*.xml
+    paths:
+      - target/test-results
+    expire_in: 1 day
+
+maven-package:
+  stage: package
+  only:
+    - master
+    - merge_requests
+  script:
+    - ./mvnw verify -Pprod -DskipTests -Dmaven.repo.local=$MAVEN_USER_HOME
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 day
