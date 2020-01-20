@@ -27,10 +27,10 @@ cache:
 update cache:
   stage: cache
   cache:
-      key: ${CI_COMMIT_REF_SLUG}
-      paths:
-        - target/
-      policy: push
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - target/
+    policy: push
   except:
     - schedules
   before_script:
