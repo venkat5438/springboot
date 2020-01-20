@@ -3,7 +3,7 @@ stages:
   - build
   - test
   - package
-# - deploy
+  - deploy
 
 image: maven:3-jdk-8
 
@@ -68,7 +68,7 @@ maven-package:
     - echo "this job is going to package project"
 
 docker-push:
-  stage: release
+  stage: deploy
   image: docker:latest
   services:
     - docker:dind
