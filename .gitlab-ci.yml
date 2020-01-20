@@ -27,8 +27,8 @@ maven-compile:
     paths:
         - target/classes/
         - target/generated-sources/
-    except:
-      - schedules
+  except:
+    - schedules
   before_script:
     - echo "this job is going to build project"
 
