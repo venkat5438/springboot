@@ -1,4 +1,5 @@
 stages:
+  - cache
   - build
   - test
   - package
@@ -17,6 +18,17 @@ before_script:
   - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
   - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
 
+update cache:
+  stage: cache
+  cache:
+      key: ${CI_COMMIT_REF_SLUG}
+      paths:
+        - target/
+      policy: push
+  except:
+    - schedules
+  before_script:
+    - echo "this job is going to update cache files and folders"
 
 maven-compile:
   stage: build
