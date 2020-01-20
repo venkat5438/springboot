@@ -51,23 +51,6 @@ maven-test:
   before_script:
     - echo "this job is going to test project"
 
-frontend-test:
-  stage: test
-  only:
-    - master
-    - merge_requests
-  script:
-    - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dfrontend.npm.arguments='test -- -u' -Dmaven.repo.local=$MAVEN_USER_HOME
-  artifacts:
-    reports:
-      junit: target/test-results/jest/TESTS-*.xml
-    paths:
-      - target/test-results
-  except:
-    - schedules
-  before_script:
-    - echo "this job is going to test project"
-
 maven-package:
   stage: package
   only:
