@@ -1,0 +1,25 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  PRODUCTION_DOMAIN: http://localhost:8080/
+
+
+build website:
+  stage: build
+  only:
+    - master
+    - merge_requests
+  image: node
+  script:
+    - echo ${CI_COMMIT_SHORT_SHA}
+    - ./mvnw package
+  artifacts:
+    paths:
+      - ./target
+  except:
+    - schedules
+  before_script:
+    - echo "this job is going to build project"
