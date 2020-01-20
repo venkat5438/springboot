@@ -7,34 +7,14 @@ stages:
 variables:
   PRODUCTION_DOMAIN: http://localhost:8080/
 
-cache:
-    key: "$CI_COMMIT_REF_NAME"
-    paths:
-        - .maven/
 
 before_script:
-    - export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk"
-    - export MAVEN_USER_HOME=`pwd`/.maven
-    - chmod +x mvnw
-    - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
-    - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
+  - export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk"
+  - export MAVEN_USER_HOME=`pwd`/.maven
+  - chmod +x mvnw
+  - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
+  - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
 
-build website:
-  stage: build
-  only:
-    - master
-    - merge_requests
-  #image: node
-  script:
-    - echo ${CI_COMMIT_SHORT_SHA}
-    - ./mvnw package
-  artifacts:
-    paths:
-      - /target
-  except:
-    - schedules
-  before_script:
-    - echo "this job is going to build project"
 
 maven-compile:
   stage: build
@@ -47,7 +27,10 @@ maven-compile:
     paths:
         - target/classes/
         - target/generated-sources/
-    expire_in: 1 day
+    except:
+      - schedules
+  before_script:
+    - echo "this job is going to build project"
 
 maven-test:
   stage: test
@@ -61,7 +44,10 @@ maven-test:
       junit: target/surefire-reports/TEST-*.xml
     paths:
       - target/test-results
-    expire_in: 1 day
+  except:
+    - schedules
+  before_script:
+    - echo "this job is going to test project"
 
 frontend-test:
   stage: test
@@ -75,7 +61,10 @@ frontend-test:
       junit: target/test-results/jest/TESTS-*.xml
     paths:
       - target/test-results
-    expire_in: 1 day
+  except:
+    - schedules
+  before_script:
+    - echo "this job is going to test project"
 
 maven-package:
   stage: package
@@ -87,4 +76,7 @@ maven-package:
   artifacts:
     paths:
       - target/*.jar
-    expire_in: 1 day
+  except:
+    - schedules
+  before_script:
+    - echo "this job is going to package project"
