@@ -1,5 +1,4 @@
 stages:
-  - cache
   - build
   - test
   - package
@@ -14,23 +13,10 @@ variables:
   MAVEN_OPTS: -Dmaven.repo.local=/cache/maven.repository
 
 cache:
+  key: ${CI_BUILD_REF_NAME}
   paths:
     - ./.m2/repository
-  key: ${CI_BUILD_REF_NAME}
   policy: pull
-
-update cache:
-  stage: cache
-  image: maven:3-jdk-8
-  cache:
-    key: ${CI_BUILD_REF_NAME}
-    paths:
-      - ./.m2/repository
-    policy: push
-  except:
-    - schedules
-  before_script:
-    - echo "this job is going to update cache files and folders"
 
 before_script:
   - export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk"
