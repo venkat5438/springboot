@@ -16,12 +16,12 @@ variables:
 cache:
   paths:
     - ./.m2/repository
-  key: "$CI_BUILD_REF_NAME"
+  key: ${CI_BUILD_REF_NAME}
 
 update cache:
   stage: cache
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    key: ${CI_BUILD_REF_NAME}
     paths:
       - ./.m2/repository
     policy: push
