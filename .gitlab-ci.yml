@@ -76,6 +76,8 @@ maven-package:
 docker-push:
   stage: deploy
   image: docker:stable
+  services:
+    - docker:dind
   variables:
     REGISTRY_URL: https://registry.hub.docker.com
     #DOCKER_DRIVER: overlay2
