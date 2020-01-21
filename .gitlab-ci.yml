@@ -75,19 +75,19 @@ maven-package:
 
 docker-push:
   stage: deploy
-  image: docker:stable
+  image: docker:latest
   services:
     - docker:dind
   variables:
     REGISTRY_URL: https://registry.hub.docker.com
-    #DOCKER_DRIVER: overlay2
-    #IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    DOCKER_DRIVER: overlay2
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   dependencies:
     - maven-package
   before_script:
     - docker info
     - cp target/*.jar src/main/docker
   script:
-    - docker build -t devopsbatch17/springboot:tagname .
+    - docker build -f src/main/docker/Dockerfile -t $IMAGE_TAG src/main/docker/
     - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push devopsbatch17/springboot:tagname
+    - docker push devopsbatch17/springboot:$IMAGE_TAG
