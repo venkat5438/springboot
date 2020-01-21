@@ -13,10 +13,9 @@ variables:
   MAVEN_OPTS: -Dmaven.repo.local=/cache/maven.repository
 
 cache:
-  key: ${CI_BUILD_REF_NAME}
+  key: "$CI_BUILD_STAGE"
   paths:
     - ./.m2/repository
-  policy: pull
 
 before_script:
   - export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk"
