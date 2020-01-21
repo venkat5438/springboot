@@ -20,6 +20,7 @@ cache:
 
 update cache:
   stage: cache
+  image: maven:3-jdk-8
   cache:
     key: ${CI_BUILD_REF_NAME}
     paths:
