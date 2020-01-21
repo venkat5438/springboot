@@ -25,7 +25,7 @@ before_script:
   - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
   - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
 
-#maven-compile:
+maven-compile:
   stage: build
   only:
     - master
@@ -36,12 +36,12 @@ before_script:
     paths:
         - target/classes/
         - target/generated-sources/
-  except:
+  only:
     - schedules
   before_script:
     - echo "this job is going to build project"
 
-#maven-test:
+maven-test:
   stage: test
   only:
     - master
@@ -53,7 +53,7 @@ before_script:
       junit: target/surefire-reports/TEST-*.xml
     paths:
       - target/*.jar
-  except:
+  only:
     - schedules
   before_script:
     - echo "this job is going to test project"
