@@ -81,7 +81,7 @@ docker-push:
     REGISTRY_URL: https://registry.hub.docker.com
     DOCKER_REPO: springboot
     DOCKER_DRIVER: overlay2
-    IMAGE_TAG: $CI_COMMIT_REF_SLUG
+    IMAGE_TAG: "petclinic"
     APPLICATION_NAME: springbootapplication
   dependencies:
     - maven-package
@@ -96,4 +96,4 @@ docker-push:
    # - docker push $REGISTRY_URL/$DOCKER_REPO:master:latest
    # - docker push https://registry.hub.docker.com/repository/docker/devopsbatch17/springboot:master:latest
    # - docker push master:latest
-    - docker push master:latest
+    - docker push $IMAGE_TAG:latest
