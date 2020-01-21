@@ -80,6 +80,7 @@ docker-push:
     - docker:dind
   variables:
     REGISTRY_URL: https://registry.hub.docker.com
+    DOCKER_REPO: springboot
     DOCKER_DRIVER: overlay2
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
     APPLICATION_NAME: springbootapplication
@@ -89,6 +90,7 @@ docker-push:
     - docker info
     - cp target/*.jar src/main/docker
   script:
-    - docker build -f src/main/docker/Dockerfile -t $IMAGE_TAG src/main/docker/
+   # - docker build -f src/main/docker/Dockerfile -t $IMAGE_TAG src/main/docker/ --rm=false
+    - docker build -f src/main/docker/Dockerfile -t $REGISTRY_URL/$DOCKER_REPO:$IMAGE_TAG src/main/docker --rm=false
     - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker push registry.hub.docker.com/repository/docker/devopsbatch17/springboot
