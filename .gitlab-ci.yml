@@ -93,4 +93,5 @@ docker-push:
    # - docker build -f src/main/docker/Dockerfile -t $IMAGE_TAG src/main/docker/ --rm=false
     - docker build -f src/main/docker/Dockerfile -t $REGISTRY_URL/$DOCKER_REPO:$IMAGE_TAG src/main/docker --rm=false
     - docker login -u $CI_REGISTRY_USER -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push registry.hub.docker.com/repository/docker/devopsbatch17/springboot
+   # - docker push registry.hub.docker.com/repository/docker/devopsbatch17/springboot
+    - docker push $REGISTRY_URL/$DOCKER_REPO:$IMAGE_TAG
