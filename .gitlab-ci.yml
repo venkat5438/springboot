@@ -1,4 +1,6 @@
 stages:
+  - build
+  - test
   - package
   - deploy
 
@@ -23,7 +25,7 @@ before_script:
   - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
   - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
 
-maven-compile:
+#maven-compile:
   stage: build
   only:
     - master
@@ -39,7 +41,7 @@ maven-compile:
   before_script:
     - echo "this job is going to build project"
 
-maven-test:
+#maven-test:
   stage: test
   only:
     - master
