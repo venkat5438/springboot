@@ -18,6 +18,18 @@ cache:
     - ./.m2/repository
   key: "$CI_BUILD_REF_NAME"
 
+update cache:
+  stage: cache
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - ./.m2/repository
+    policy: push
+  except:
+    - schedules
+  before_script:
+    - echo "this job is going to update cache files and folders"
+
 before_script:
   - export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk"
   - export MAVEN_USER_HOME=`pwd`/.maven
@@ -82,7 +94,7 @@ docker-push:
     REGISTRY_URL: https://registry.hub.docker.com
     DOCKER_REPO: springboot
     DOCKER_DRIVER: overlay2
-    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    IMAGE_TAG: $CI_COMMIT_REF_SLUG
     APPLICATION_NAME: springbootapplication
   dependencies:
     - maven-package
