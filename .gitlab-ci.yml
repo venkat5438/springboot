@@ -96,4 +96,4 @@ docker-push:
    # - docker push $REGISTRY_URL/$DOCKER_REPO:master:latest
    # - docker push https://registry.hub.docker.com/repository/docker/devopsbatch17/springboot:master:latest
    # - docker push master:latest
-    - docker push devopsbatch17/springboot:$IMAGE_TAG
+    - docker push master:latest
