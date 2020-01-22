@@ -100,8 +100,8 @@ docker-push:
     - docker push devopsbatch17/petclinic:latest
 
 k8s-deploy:
-  image: google/cloud-sdk
   stage: kubernetes-deploy
+  image: google/cloud-sdk:latest
   script:
     - echo "$GOOGLE_KEY" > key.json
     - gcloud auth activate-service-account --key-file key.json
