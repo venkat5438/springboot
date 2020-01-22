@@ -102,6 +102,8 @@ docker-push:
 k8s-deploy:
   stage: kubernetes-deploy
   image: google/cloud-sdk:latest
+  services:
+    - docker:dind
   script:
     - echo "$GOOGLE_KEY" > key.json
     - gcloud auth activate-service-account --key-file key.json
