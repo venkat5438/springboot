@@ -2,7 +2,8 @@ stages:
   - build
   - test
   - package
-  - deploy
+  - deploy_to_dockerhub
+  - kubernetes-deploy
 
 image: maven:3-jdk-8
 
@@ -73,7 +74,7 @@ maven-package:
     - echo "this job is going to package project"
 
 docker-push:
-  stage: deploy
+  stage: deploy_to_dockerhub
   image: docker:latest
   services:
     - docker:dind
@@ -100,9 +101,7 @@ docker-push:
 
 k8s-deploy:
   image: google/cloud-sdk
-  stage: deploy
-  dependencies:
-    - docker-push
+  stage: kubernetes-deploy
   script:
     - echo "$GOOGLE_KEY" > key.json
     - gcloud auth activate-service-account --key-file key.json
