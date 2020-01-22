@@ -97,3 +97,17 @@ docker-push:
    # - docker push https://registry.hub.docker.com/repository/docker/devopsbatch17/springboot:master:latest
    # - docker push master:latest
     - docker push devopsbatch17/petclinic:latest
+
+k8s-deploy:
+  image: google/cloud-sdk
+  stage: deploy
+  script:
+    - echo "$GOOGLE_KEY" > key.json
+    - gcloud auth activate-service-account --key-file key.json
+    - gcloud config set compute/zone us-central1
+    - gcloud config set project springboot-sample-265919
+    - gcloud config set container/use_client_certificate false
+    - gcloud container clusters get-credentials springboot-sample-265919
+    - kubectl delete secret registry.hub.docker.com
+    - kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD --docker-email=devopsbatch17@gmail.com
+    - kubectl apply -f deployment.yml
