@@ -35,7 +35,7 @@ maven-compile:
     paths:
         - target/classes/
         - target/generated-sources/
-  only:
+  except:
     - schedules
   before_script:
     - echo "this job is going to build project"
@@ -52,7 +52,7 @@ maven-test:
       junit: target/surefire-reports/TEST-*.xml
     paths:
       - target/*.jar
-  only:
+  except:
     - schedules
   before_script:
     - echo "this job is going to test project"
