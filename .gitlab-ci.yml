@@ -112,7 +112,7 @@ k8s-deploy:
     - echo "$GOOGLE_KEY" > key.json
     - gcloud auth activate-service-account --key-file key.json
     - gcloud config set compute/zone us-central1
-    - gcloud config set project springboot-sample-265919
+    - gcloud config set project springboot-sample
     - gcloud config set container/use_client_certificate false
     - gcloud container clusters get-credentials springboot-cluster --zone=us-central1
     - kubectl delete secret registry.hub.docker.com
