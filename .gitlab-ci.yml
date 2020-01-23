@@ -89,7 +89,7 @@ docker-push:
   before_script:
     - docker info
     - cp target/*.jar src/main/docker
-  only:
+  except:
     - schedules
   script:
    # - docker build -f src/main/docker/Dockerfile -t $IMAGE_TAG src/main/docker/ --rm=false
@@ -104,7 +104,7 @@ docker-push:
 k8s-deploy:
   stage: kubernetes-deploy
   image: google/cloud-sdk:latest
-  only:
+  except:
     - schedules
   services:
     - docker:dind
