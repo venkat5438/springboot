@@ -114,7 +114,7 @@ k8s-deploy:
     - gcloud config set compute/zone us-central1
     - gcloud config set project springboot-sample
     - gcloud config set container/use_client_certificate false
-    - gcloud container clusters get-credentials springboot-cluster --zone us-central1 
+    - gcloud --quiet container clusters get-credentials springboot-cluster 
     - kubectl delete secret registry.hub.docker.com
     - kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD --docker-email=devopsbatch17@gmail.com
     - kubectl apply -f deployment.yml
