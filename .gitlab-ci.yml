@@ -120,4 +120,5 @@ k8s-deploy:
     - kubectl get ns
     #- kubectl delete secret registry.gitlab.com
     - kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD --docker-email=devopsbatch17@gmail.com --dry-run -o yaml|kubectl apply -f -
-    - kubectl apply -f deployment.yml service-definition.yml
+    - kubectl apply -f deployment.yml
+    - kubectl apply -f service-definition.yml
