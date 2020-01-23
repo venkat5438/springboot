@@ -1,4 +1,7 @@
 FROM openjdk:8-jdk-alpine
-COPY target/spring-petclinic-2.2.0.BUILD-SNAPSHOT.jar /
+MAINTAINER "breddy@nisum.com"
+RUN mkdir $HOME/app
+COPY target/* $HOME/app/
+WORKDIR $HOME/app/
 ENTRYPOINT ["java","-jar","spring-petclinic-2.2.0.BUILD-SNAPSHOT.jar"]
-EXPOSE 8040
+EXPOSE 8040/tcp
