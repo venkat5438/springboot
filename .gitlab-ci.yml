@@ -111,6 +111,7 @@ k8s-deploy:
   script:
     - echo "$GOOGLE_KEY" > key.json
     - gcloud auth activate-service-account --key-file key.json
+    - export GOOGLE_APPLICATION_CREDENTIALS="key.json"
     - gcloud config set compute/zone us-central1
     - gcloud config set project springboot-sample
     - gcloud config set container/use_client_certificate true
