@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: springboot-sample
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: springboot-sample
+    spec:
+      containers:
+      - name: springboot-sample
+        image: devopsbatch17/petclinic:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8040
+      imagePullSecrets:
+        - name: registry.hub.docker.com

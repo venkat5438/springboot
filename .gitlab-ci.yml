@@ -22,8 +22,8 @@ before_script:
   - export JAVA_HOME="/usr/lib/jvm/jre-1.8.0-openjdk"
   - export MAVEN_USER_HOME=`pwd`/.maven
   - chmod +x mvnw
-  - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
-  - ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
+  #- ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.13.0 -DnpmVersion=6.4.1 -Dmaven.repo.local=$MAVEN_USER_HOME
+  #- ./mvnw com.github.eirslett:frontend-maven-plugin:npm -Dmaven.repo.local=$MAVEN_USER_HOME
 
 maven-compile:
   stage: build
@@ -89,6 +89,8 @@ docker-push:
   before_script:
     - docker info
     - cp target/*.jar src/main/docker
+  only:
+    - schedules
   script:
    # - docker build -f src/main/docker/Dockerfile -t $IMAGE_TAG src/main/docker/ --rm=false
     - docker build -t devopsbatch17/petclinic src/main/docker
@@ -102,6 +104,8 @@ docker-push:
 k8s-deploy:
   stage: kubernetes-deploy
   image: google/cloud-sdk:latest
+  only:
+    - schedules
   services:
     - docker:dind
   script:
