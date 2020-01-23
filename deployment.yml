@@ -15,7 +15,7 @@ spec:
         image: devopsbatch17/petclinic:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 8040
+        - containerPort: 8080
       imagePullSecrets:
         - name: registry.hub.docker.com
   selector:
