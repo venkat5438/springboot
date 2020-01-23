@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Service
+metadata:
+    name: springboot-service
+spec:
+    type: NodePort
+    ports:
+     - targetPort: 80
+       port: 80
+       nodePort: 30008
+    selector:
+        app: springboot-sample

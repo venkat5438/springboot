@@ -8,6 +8,7 @@ spec:
     metadata:
       labels:
         app: springboot-sample
+        type: front-end
     spec:
       containers:
       - name: springboot-sample
@@ -17,3 +18,6 @@ spec:
         - containerPort: 8040
       imagePullSecrets:
         - name: registry.hub.docker.com
+  selector:
+    matchLabels:
+      app: springboot-sample
