@@ -88,7 +88,8 @@ docker-push:
     - maven-package
   before_script:
     - docker info
-    - cp target/*.jar src/main/docker
+    #- cp target/*.jar src/main/docker
+    - ls
   except:
     - schedules
   script:
