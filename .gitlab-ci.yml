@@ -68,7 +68,7 @@ maven-package:
   artifacts:
     paths:
       - target/*.jar
-  except:
+  only:
     - schedules
   before_script:
     - echo "this job is going to package project"
@@ -89,7 +89,7 @@ docker-push:
   before_script:
     - docker info
     - cp target/*.jar src/main/docker
-  except:
+  only:
     - schedules
   script:
    # - docker build -f src/main/docker/Dockerfile -t $IMAGE_TAG src/main/docker/ --rm=false
@@ -114,7 +114,7 @@ k8s-deploy:
     - gcloud config set compute/zone us-central1
     - gcloud config set project springboot-sample
     - gcloud config set container/use_client_certificate false
-    - gcloud container clusters get-credentials springboot-cluster --zone=us-central1
+    - gcloud container clusters get-credentials springboot-cluster --zone us-central1 
     - kubectl delete secret registry.hub.docker.com
     - kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD --docker-email=devopsbatch17@gmail.com
     - kubectl apply -f deployment.yml
