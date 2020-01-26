@@ -24,7 +24,7 @@ pipeline {
 
                 stage('Building artifact') {
                     steps {
-                        sh './mvnw build'
+                        sh './mvnw verify'
                     }
                 }
 
