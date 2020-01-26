@@ -25,6 +25,7 @@ pipeline {
                 stage('Building artifact') {
                     steps {
                         sh './mvnw verify'
+                        sh 'docker build -t devopsbatch17/petclinic .'
                     }
                 }
 
@@ -33,7 +34,6 @@ pipeline {
                         withCredentials([usernamePassword(credentialsId: 'docker_hub_skills_matrix', passwordVariable: 'DOCKER_HUB_CREDENTIALS_PSW', usernameVariable: 'DOCKER_HUB_CREDENTIALS_USR')]) {
                             sh 'docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
                             sh 'docker push $DOCKER_HUB_CREDENTIALS_USR/skills-matrix-java-skill:$(grep -Eo "([0-9]\\.[0-9]+\\.[0-9]+)[-SNAPSHOT]*" build/gitversion/version.properties)'
-                            sh 'cp build/gitversion/version.properties ~/'
                         }
                     }
                 }
