@@ -17,15 +17,14 @@ pipeline {
                 }
 
                 stage('Unit Tests') {
-                    tool name: 'maven-3', type: 'maven'
                     steps {
-                        sh 'mvn test'
+                        sh './mvnw test'
                     }
                 }
 
                 stage('Building artifact') {
                     steps {
-                        sh 'mvn build'
+                        sh './mvnw build'
                     }
                 }
 
