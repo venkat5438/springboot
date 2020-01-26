@@ -17,11 +17,8 @@ pipeline {
                 }
 
                 stage('Unit Tests') {
+                    tool name: 'maven-3', type: 'maven'
                     steps {
-                         withMaven(
-                            maven: 'maven-3',
-                            mavenSettingsConfig: 'my-maven-settings') {
-                        sh "mvn clean verify"
                         sh 'mvn test'
                     }
                 }
