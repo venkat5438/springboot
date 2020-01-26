@@ -6,7 +6,7 @@ pipeline {
             stages {
                 stage('Checkout') {
                     steps {
-                        git branch: '$BRANCH_NAME', credentialsId: 'devops', url: 'https://github.com/venkat5438/springboot.git'
+                        git branch: '$BRANCH_NAME', url: 'https://github.com/venkat5438/springboot.git'
                     }
                 }
 
