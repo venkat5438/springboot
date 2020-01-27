@@ -1,10 +1,10 @@
 pipeline {
     environment {
-    registry = "devopsbatch17/petclinic"
-    registryCredential = 'devopsbatch17'
-    dockerImage = ''
-  }
-    agent any
+        registry = "devopsbatch17/petclinic"
+        registryCredential = 'devopsbatch17'
+        dockerImage = ''
+    }
+    agent none
 
     stages {
         stage ('Pipeline beginning - Unit and Sonar stages'){
@@ -35,7 +35,7 @@ pipeline {
                 stage('Building image') {
                     steps{
                         script {
-                            dockerImage = /usr/local/bin/docker.build registry + ":$BUILD_NUMBER"
+                            dockerImage = docker.build registry + ":$BUILD_NUMBER"
                             echo $dockerImage
                         }
                     }
