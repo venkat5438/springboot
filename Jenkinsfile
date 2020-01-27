@@ -29,7 +29,7 @@ pipeline {
 
                 stage('Building artifact') {
                     steps {
-                        sh './mvnw verify'
+                        sh './mvnw package'
                     }
                 }
                 stage('Building image') {
