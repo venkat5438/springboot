@@ -1,4 +1,9 @@
 pipeline {
+    environment {
+    registry = "devopsbatch17/petclinic"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
     agent any
 
     stages {
@@ -25,15 +30,21 @@ pipeline {
                 stage('Building artifact') {
                     steps {
                         sh './mvnw verify'
-                        sh 'docker build -t devopsbatch17/petclinic .'
+                       // sh 'docker build -t devopsbatch17/petclinic .'
                     }
                 }
-
+                stage('Building image') {
+                    steps{
+                        script {
+                            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                        }
+                    }
+                }
                 stage('Store artifact') {
                     steps {
-                        withCredentials([usernamePassword(credentialsId: 'docker_hub_skills_matrix', passwordVariable: 'DOCKER_HUB_CREDENTIALS_PSW', usernameVariable: 'DOCKER_HUB_CREDENTIALS_USR')]) {
+                        withCredentials([usernamePassword(credentialsId: 'devopsbatch17', passwordVariable: 'DOCKER_HUB_CREDENTIALS_PSW', usernameVariable: 'DOCKER_HUB_CREDENTIALS_USR')]) {
                             sh 'docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
-                            sh 'docker push $DOCKER_HUB_CREDENTIALS_USR/skills-matrix-java-skill:$(grep -Eo "([0-9]\\.[0-9]+\\.[0-9]+)[-SNAPSHOT]*" build/gitversion/version.properties)'
+                            sh 'docker push $DOCKER_HUB_CREDENTIALS_USR/petclinic:latest'
                         }
                     }
                 }
