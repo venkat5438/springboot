@@ -33,6 +33,13 @@ pipeline {
                         sh './mvnw package'
                     }
                 }
+                stage('Printing docker information') {
+                    steps{
+                        sh 'which docker'
+                        sh 'docker images -a'
+                        sh 'docker ps -a'
+                    }
+                }
                 stage('Building image') {
                     steps{
                         script {
