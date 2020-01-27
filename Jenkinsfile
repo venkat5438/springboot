@@ -4,7 +4,8 @@ pipeline {
         registryCredential = 'devopsbatch17'
         dockerImage = ''
     }
-    agent none
+    
+    agent any
 
     stages {
         stage ('Pipeline beginning - Unit and Sonar stages'){
