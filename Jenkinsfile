@@ -17,7 +17,7 @@ pipeline {
 
                 stage('Running Sonar') {
                     steps {
-                        echo "Here is the Sonar exec!"
+                        echo "Here is the Sonar exect!"
                     }
                 }
 
