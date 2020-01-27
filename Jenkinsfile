@@ -30,7 +30,6 @@ pipeline {
                 stage('Building artifact') {
                     steps {
                         sh './mvnw verify'
-                       // sh 'docker build -t devopsbatch17/petclinic .'
                     }
                 }
                 stage('Building image') {
