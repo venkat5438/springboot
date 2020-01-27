@@ -4,7 +4,7 @@ pipeline {
     registryCredential = 'devopsbatch17'
     dockerImage = ''
   }
-    agent { docker 'maven:3-alpine' }
+    agent any
 
     stages {
         stage ('Pipeline beginning - Unit and Sonar stages'){
