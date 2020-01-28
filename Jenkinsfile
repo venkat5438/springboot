@@ -59,6 +59,7 @@ pipeline {
                         {
                             sh '/usr/local/bin/docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
                             sh '/usr/local/bin/docker push "devopsbatch17/petclinic:$BUILD_NUMBER"'
+                            sh '/usr/local/bin/docker logout'
                         }
                     }
                 }
