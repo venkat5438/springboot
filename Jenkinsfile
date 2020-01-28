@@ -46,8 +46,8 @@ pipeline {
                 stage('Store artifact') {
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'devopsbatch17', passwordVariable: 'DOCKER_HUB_CREDENTIALS_PSW', usernameVariable: 'DOCKER_HUB_CREDENTIALS_USR')]) {
-                            sh 'docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
-                            sh 'docker push $DOCKER_HUB_CREDENTIALS_USR/petclinic:latest'
+                            sh '/usr/local/bin/docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
+                            sh '/usr/local/bin/docker push $DOCKER_HUB_CREDENTIALS_USR/petclinic:$BUILD_NUMBER'
                         }
                     }
                 }
