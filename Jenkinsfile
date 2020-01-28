@@ -44,6 +44,15 @@ pipeline {
                             
                     }
                 }
+                stage('Cleanup'){
+                    steps{
+                            sh  '''
+                                 docker image prune --all --filter until=1h
+                                 docker rmi $(docker images -f 'dangling=true' -q) || true
+                                 docker rmi $(docker images | sed 1,2d | awk '{print $3}') || true
+                                '''
+                    }
+                }
                 stage('Store artifact') {
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'devopsbatch17', passwordVariable: 'DOCKER_HUB_CREDENTIALS_PSW', usernameVariable: 'DOCKER_HUB_CREDENTIALS_USR')]) 
@@ -53,6 +62,7 @@ pipeline {
                         }
                     }
                 }
+                
 
             }
 
