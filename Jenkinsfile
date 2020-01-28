@@ -46,7 +46,7 @@ pipeline {
                 }
                 stage('Store artifact') {
                     steps {
-                        withDockerRegistry([ credentialsId: "devopsbatch17", url: "https://registry.hub.docker.com" ]) {
+                        withDockerRegistry([ credentialsId: "devopsbatch17", url: "ttps://index.docker.io/v1/" ]) {
                             sh '/usr/local/bin/docker push "devopsbatch17/petclinic:$BUILD_NUMBER"'
                         }
                     }
