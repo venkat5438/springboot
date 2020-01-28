@@ -38,7 +38,7 @@ pipeline {
                 stage('Building image') {
                     steps{
                         script{
-                            sh '/usr/local/bin/docker build -t devopsbatch17/petclinic+":$BUILD_NUMBER"'
+                            docker.build registry + ":$BUILD_NUMBER"
                             sh '/usr/local/bin/docker images'
                         }
                             
