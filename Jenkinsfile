@@ -46,7 +46,9 @@ pipeline {
                 }
                 stage('Store artifact') {
                     steps {
-                        withDockerRegistry([ credentialsId: "devopsbatch17", url: "https://index.docker.io/v1/" ]) {
+                        withCredentials([usernamePassword(credentialsId: 'devopsbatch17', passwordVariable: 'DOCKER_HUB_CREDENTIALS_PSW', usernameVariable: 'DOCKER_HUB_CREDENTIALS_USR')]) 
+                        {
+                            sh '/usr/local/bin/docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
                             sh '/usr/local/bin/docker push "devopsbatch17/petclinic:$BUILD_NUMBER"'
                         }
                     }
