@@ -32,12 +32,12 @@ pipeline {
                     steps {
                         sh './mvnw package'
                         sh '/usr/local/bin/docker version'
-                        sh 'usr/local/bin/docker images'
+                        sh '/usr/local/bin/docker images'
                     }
                 }
                 stage('Building image') {
                     steps{
-                            sh 'docker.build registry'
+                            sh '/usr/local/bin/docker.build registry'
                     }
                 }
                 stage('Store artifact') {
