@@ -37,7 +37,7 @@ pipeline {
                 }
                 stage('Building image') {
                     steps{
-                            sh '/usr/local/bin/docker.build ${registry}'
+                            sh '/usr/local/bin/docker build ${registry}'
                     }
                 }
                 stage('Store artifact') {
