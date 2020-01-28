@@ -31,12 +31,13 @@ pipeline {
                 stage('Building artifact') {
                     steps {
                         sh './mvnw package'
+                        sh '/usr/local/bin/docker version'
                     }
                 }
                 stage('Building image') {
                     steps{
                         script {
-                            dockerImage =  "/usr/local/bin/docker.build registry + :"$BUILD_NUMBER""
+                            dockerImage =  "/usr/local/bin/docker.build registry"
                             echo $dockerImage
                         }
                     }
