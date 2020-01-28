@@ -46,8 +46,7 @@ pipeline {
                 stage('Store artifact') {
                     steps {
                         withDockerRegistry([ credentialsId: "devopsbatch17", url: "https://registry.hub.docker.com" ]) {
-                            // sh '/usr/local/bin/docker push registry + ":$BUILD_NUMBER"'
-                            customImage.push()
+                            sh '/usr/local/bin/docker push registry + ":$BUILD_NUMBER"'
                         }
                     }
                 }
