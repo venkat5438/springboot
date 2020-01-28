@@ -38,7 +38,7 @@ pipeline {
                 stage('Building image') {
                     steps{
                         script{
-                             /usr/local/bin/docker.build registry + ":$BUILD_NUMBER"
+                            def customImage =  '/usr/local/bin/docker.build registry + ":$BUILD_NUMBER"'
                         }
                             
                     }
