@@ -3,6 +3,8 @@ pipeline {
         registry = "devopsbatch17/petclinic"
         registryCredential = 'devopsbatch17'
         dockerImage = ''
+        JENKINS_GCLOUD_CRED_ID='JENKINSGCLOUDCREDENTIAL'
+
     }
     
     agent any
@@ -66,7 +68,7 @@ pipeline {
 
                 stage('Deploy'){
                      steps{
-                        withCredentials([file(credentialsId: 'JENKINS_GCLOUD_CRED_ID', variable: 'JENKINSGCLOUDCREDENTIAL')])
+                        withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CRED_ID}", variable: 'JENKINSGCLOUDCREDENTIAL')])
                         {
                             sh """
                                 gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
