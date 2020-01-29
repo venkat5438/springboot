@@ -1,3 +1,6 @@
+def getEnvVar(String paramName){
+    return sh (script: "grep '${paramName}' env_vars/project.properties|cut -d'=' -f2", returnStdout: true).trim();
+}
 pipeline {
     environment {
         registry = "devopsbatch17/petclinic"
@@ -7,6 +10,7 @@ pipeline {
         CLUSTER_NAME= 'springboot-sample'
         LOCATION= 'us-central1'
         CREDENTIALS_ID= 'JENKINS_GCLOUD_CREDENTIALS'
+        JENKINS_GCLOUD_CRED_ID= 'JENKINS_GCLOUD_CRED_ID'
 
 
     }
@@ -16,6 +20,19 @@ pipeline {
     stages {
         stage ('Pipeline beginning - Unit and Sonar stages'){
             stages {
+                 stage('Init'){
+                             steps{
+                                    script{
+                                        env.DOCKER_REGISTRY_URL=getEnvVar('DOCKER_REGISTRY_URL')
+                                        env.JENKINS_DOCKER_CREDENTIALS_ID = getEnvVar('JENKINS_DOCKER_CREDENTIALS_ID')        
+                                        env.JENKINS_GCLOUD_CRED_ID = getEnvVar('JENKINS_GCLOUD_CRED_ID')
+                                        env.GCLOUD_PROJECT_ID = getEnvVar('GCLOUD_PROJECT_ID')
+                                        env.JENKINS_GCLOUD_CRED_LOCATION = getEnvVar('JENKINS_GCLOUD_CRED_LOCATION')
+
+                                    }
+
+                                }
+                                }
                 stage('Checkout') {
                     steps {
                         git branch: 'master', credentialsId: '42e2540c-bd45-4b1f-a50e-5ebf09baef8f', url: 'https://github.com/venkat5438/springboot.git'
