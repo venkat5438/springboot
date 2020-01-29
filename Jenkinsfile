@@ -72,9 +72,22 @@ pipeline {
 
                 stage('Deploy to GKE test cluster') {
                     steps{
-                            sh './changeTag.sh $BUILD_NUMBER'
-                            step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
-                            step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'service-defintion.yml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                        withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CRED_ID}", variable: 'JENKINSGCLOUDCREDENTIAL')])
+                        {
+                            sh """
+                                gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
+                                gcloud config set compute/zone us-central1
+                                gcloud config set project springboot-sample-265919
+                                gcloud container clusters get-credentials springboot-cluster
+                                kubectl get ns
+                                kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$DOCKER_HUB_CREDENTIALS_USR --docker-password=$DOCKER_HUB_CREDENTIALS_PSW --docker-email=devopsbatch17@gmail.com --dry-run -o yaml|kubectl apply -f -
+                                ./changeTag.sh $BUILD_NUMBER
+                                kubectl apply -f deployment.yml
+                                kubectl apply -f service-definition.yml
+                                gcloud auth revoke --all
+                            """
+                         }
+                            
                         }
                     }
                 
