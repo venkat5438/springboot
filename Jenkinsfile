@@ -66,7 +66,7 @@ pipeline {
 
                 stage('Deploy'){
                      steps{
-                        withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CRED_ID}", variable: 'JENKINSGCLOUDCREDENTIAL')])
+                        withCredentials([file(credentialsId: 'JENKINS_GCLOUD_CRED_ID', variable: 'JENKINSGCLOUDCREDENTIAL')])
                         {
                             sh """
                                 gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
@@ -75,6 +75,7 @@ pipeline {
                                 gcloud container clusters get-credentials springboot-cluster
                                 kubectl get ns
                                 kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$DOCKER_HUB_CREDENTIALS_USR --docker-password=$DOCKER_HUB_CREDENTIALS_PSW --docker-email=devopsbatch17@gmail.com --dry-run -o yaml|kubectl apply -f -
+                                ./changeTag.sh $BUILD_NUMBER
                                 kubectl apply -f deployment.yml
                                 kubectl apply -f service-definition.yml
                                 gcloud auth revoke --all
@@ -87,5 +88,5 @@ pipeline {
             }
 
         }
-}
+    }
 }

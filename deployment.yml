@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: springboot-sample
-        image: devopsbatch17/petclinic:latest
+        image: devopsbatch17/petclinic:BUILD_NUMBER
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
