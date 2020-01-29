@@ -68,10 +68,10 @@ pipeline {
 
                 stage('Deploy'){
                      steps{
-                        withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CRED_ID}", variable: 'JENKINSGCLOUDCREDENTIAL')])
+                        withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CREDENTIALS}", variable: 'JENKINSGCLOUDCREDENTIAL')])
                         {
                             sh """
-                                gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
+                                gcloud auth activate-service-account --key-file=${JENKINS_GCLOUD_CREDENTIALS}
                                 gcloud config set compute/zone us-central1
                                 gcloud config set project springboot-sample-265919
                                 gcloud container clusters get-credentials springboot-cluster
