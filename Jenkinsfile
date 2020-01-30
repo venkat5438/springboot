@@ -82,6 +82,7 @@ pipeline {
                         {
                             sh '/usr/local/bin/docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
                             sh '/usr/local/bin/docker push "devopsbatch17/petclinic:$BUILD_NUMBER"'
+                            sh '/usr/local/bin/kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$DOCKER_HUB_CREDENTIALS_USR --docker-password=$DOCKER_HUB_CREDENTIALS_PSW --docker-email=devopsbatch17@gmail.com --dry-run -o yaml|/usr/local/bin/kubectl apply -f -'
                         }
                     }
                 }
@@ -91,15 +92,15 @@ pipeline {
                         withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CRED_ID}", variable: 'JENKINSGCLOUDCREDENTIAL')])
                         {
                             sh """
-                                gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
-                                gcloud config set compute/zone us-central1
-                                gcloud config set project springboot-sample-265919
-                                gcloud container clusters get-credentials springboot-cluster
-                                kubectl get ns
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud config set compute/zone us-central1
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud config set project springboot-sample-265919
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud container clusters get-credentials springboot-cluster
+                                /usr/local/bin/kubectl get ns
                                 ./changeTag.sh $BUILD_NUMBER
-                                kubectl apply -f deployment.yml
-                                kubectl apply -f service-definition.yml
-                                gcloud auth revoke --all
+                                /usr/local/bin/kubectl apply -f deployment.yml
+                                /usr/local/bin/kubectl apply -f service-definition.yml
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud auth revoke --all
                             """
                          }
                             
