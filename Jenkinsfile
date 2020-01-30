@@ -96,7 +96,6 @@ pipeline {
                                 gcloud config set project springboot-sample-265919
                                 gcloud container clusters get-credentials springboot-cluster
                                 kubectl get ns
-                                kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$DOCKER_HUB_CREDENTIALS_USR --docker-password=$DOCKER_HUB_CREDENTIALS_PSW --docker-email=devopsbatch17@gmail.com --dry-run -o yaml|kubectl apply -f -
                                 ./changeTag.sh $BUILD_NUMBER
                                 kubectl apply -f deployment.yml
                                 kubectl apply -f service-definition.yml
