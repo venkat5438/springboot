@@ -95,6 +95,7 @@ pipeline {
                                 /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
                                 /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud config set compute/zone us-central1
                                 /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud config set project springboot-sample-265919
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud components install kubectl
                                 /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud container clusters get-credentials springboot-cluster
                                 /usr/local/bin/kubectl get ns
                                 ./changeTag.sh $BUILD_NUMBER
