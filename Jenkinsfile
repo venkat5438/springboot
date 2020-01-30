@@ -99,7 +99,7 @@ pipeline {
                                 /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud container clusters get-credentials springboot-cluster
                                 /usr/local/bin/kubectl get ns
                                 ./changeTag.sh $BUILD_NUMBER
-                                /usr/local/bin/kubectl apply -f deployment.yml
+                                /usr/local/bin/kubectl apply -f deployment_buildversion.yml
                                 /usr/local/bin/kubectl apply -f service-definition.yml
                                 /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud auth revoke --all
                             """
