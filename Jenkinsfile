@@ -101,7 +101,6 @@ pipeline {
                                 ./changeTag.sh $BUILD_NUMBER
                                 /usr/local/bin/kubectl apply -f deployment_buildversion.yml
                                 /usr/local/bin/kubectl apply -f service-definition.yml
-                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud auth revoke --all
                             """
                          }
                             
