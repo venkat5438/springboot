@@ -54,15 +54,15 @@ pipeline {
                 stage('Building artifact') {
                     steps {
                         sh './mvnw package'
-                        sh 'docker version'
-                        sh 'docker images'
+                        sh '/usr/local/bin/docker version'
+                        sh '/usr/local/bin/docker images'
                     }
                 }
                 stage('Building image') {
                     steps{
                         script{
-                            sh 'docker build -t "devopsbatch17/petclinic:$BUILD_NUMBER" .'
-                            sh 'docker images'
+                            sh '/usr/local/bin/docker build -t "devopsbatch17/petclinic:$BUILD_NUMBER" .'
+                            sh '/usr/local/bin/docker images'
                         }
                             
                     }
@@ -70,9 +70,9 @@ pipeline {
                 stage('Cleanup'){
                     steps{
                             sh  '''
-                                 docker image prune --all --filter until=1h --force
-                                 docker rmi $(docker images -f 'dangling=true' -q) || true
-                                 docker rmi $(docker images | sed 1,2d | awk '{print $3}') || true
+                                 /usr/local/bin/docker image prune --all --filter until=1h --force
+                                 /usr/local/bin/docker rmi $(/usr/local/bin/docker images -f 'dangling=true' -q) || true
+                                 /usr/local/bin/docker rmi $(/usr/local/bin/docker images | sed 1,2d | awk '{print $3}') || true
                                 '''
                     }
                 }
@@ -80,9 +80,9 @@ pipeline {
                     steps {
                         withCredentials([usernamePassword(credentialsId: 'devopsbatch17', passwordVariable: 'DOCKER_HUB_CREDENTIALS_PSW', usernameVariable: 'DOCKER_HUB_CREDENTIALS_USR')]) 
                         {
-                            sh 'docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
-                            sh 'docker push "devopsbatch17/petclinic:$BUILD_NUMBER"'
-                            sh 'kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$DOCKER_HUB_CREDENTIALS_USR --docker-password=$DOCKER_HUB_CREDENTIALS_PSW --docker-email=devopsbatch17@gmail.com --dry-run -o yaml|/usr/local/bin/kubectl apply -f -'
+                            sh '/usr/local/bin/docker login --username $DOCKER_HUB_CREDENTIALS_USR --password $DOCKER_HUB_CREDENTIALS_PSW'
+                            sh '/usr/local/bin/docker push "devopsbatch17/petclinic:$BUILD_NUMBER"'
+                            sh '/usr/local/bin/kubectl create secret docker-registry registry.hub.docker.com --docker-server=https://registry.hub.docker.com --docker-username=$DOCKER_HUB_CREDENTIALS_USR --docker-password=$DOCKER_HUB_CREDENTIALS_PSW --docker-email=devopsbatch17@gmail.com --dry-run -o yaml|/usr/local/bin/kubectl apply -f -'
                         }
                     }
                 }
@@ -92,15 +92,15 @@ pipeline {
                         withCredentials([file(credentialsId: "${JENKINS_GCLOUD_CRED_ID}", variable: 'JENKINSGCLOUDCREDENTIAL')])
                         {
                             sh """
-                                gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
-                                gcloud config set compute/zone us-central1
-                                gcloud config set project springboot-sample-265919
-                                gcloud components install kubectl
-                                gcloud container clusters get-credentials springboot-cluster
-                                kubectl get ns
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=${JENKINSGCLOUDCREDENTIAL}
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud config set compute/zone us-central1
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud config set project springboot-sample-265919
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud components install kubectl
+                                /Users/venkatramreddy/Downloads/google-cloud-sdk/bin/gcloud container clusters get-credentials springboot-cluster
+                                /usr/local/bin/kubectl get ns
                                 ./changeTag.sh $BUILD_NUMBER
-                                kubectl apply -f deployment_buildversion.yml
-                                kubectl apply -f service-definition.yml
+                                /usr/local/bin/kubectl apply -f deployment_buildversion.yml
+                                /usr/local/bin/kubectl apply -f service-definition.yml
                             """
                          }
                             
