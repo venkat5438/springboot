@@ -71,8 +71,9 @@ pipeline {
                     steps{
                             sh  '''
                                  /usr/local/bin/docker image prune --all --filter until=1h --force
-                                 /usr/local/bin/docker rmi $(/usr/local/bin/docker images -f 'dangling=true' -q) || true
+                                /* /usr/local/bin/docker rmi $(/usr/local/bin/docker images -f 'dangling=true' -q) || true
                                  /usr/local/bin/docker rmi $(/usr/local/bin/docker images | sed 1,2d | awk '{print $3}') || true
+                                */
                                 '''
                     }
                 }
