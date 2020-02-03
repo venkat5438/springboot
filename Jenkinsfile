@@ -71,7 +71,7 @@ pipeline {
                     steps{
                             sh  '''
                                  /usr/local/bin/docker image prune --all --filter until=1h --force
-                                 
+
                                 '''
                     }
                 }
@@ -100,6 +100,7 @@ pipeline {
                                 ./changeTag.sh $BUILD_NUMBER
                                 /usr/local/bin/kubectl apply -f deployment_buildversion.yml
                                 /usr/local/bin/kubectl apply -f service-definition.yml
+                                /usr/local/bin/kubectl apply -f pod-definition_buildversion.yml
                             """
                          }
                             

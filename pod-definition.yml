@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: springboot-sample-pod
+  labels:
+    app: springboot-sample
+spec:
+  containers:
+    - name: springboot-sample
+      image: devopsbatch17/petclinic:BUILD_NUMBER
